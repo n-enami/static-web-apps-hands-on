@@ -1,0 +1,18 @@
+# Rubyの前提パッケージのインストール
+# 下記サイトを参照
+# https://qiita.com/mikihit0/items/48793c2b96e6a6eb8444
+# 
+cd /workspaces/static-web-apps-hands-on
+
+
+# Rubyのインストール
+ruby -v
+sudo apt-get install ruby-full
+ruby -v
+
+# RubyGemsのインストール
+gem -v
+sudo yum -y install rubygems
+gem -v
+
+# 
