@@ -1,18 +1,51 @@
-# Rubyの前提パッケージのインストール
-# 下記サイトを参照
-# https://qiita.com/mikihit0/items/48793c2b96e6a6eb8444
-# 
-cd /workspaces/static-web-apps-hands-on
+# 一番最初に実施する。
+sudo apt update
+sudo apt -y upgrade
+sudo reboot
 
+# DevContainerに追加する
+# Debian 11 (bullseye) - Ruby 3.0 インストール（ソースビルド）！
+# https://www.mk-mode.com/blog/2022/02/23/debian-11-ruby-3-0-installation-by-src/
+# ※一部読み替えて、3.1.2をインストールした
+#
 
-# Rubyのインストール
-ruby -v
-sudo apt-get install ruby-full
-ruby -v
+# 原因は不明だが、エラーになるのでlibbison-devは除いた
+sudo apt -y install libffi-dev zlib1g-dev libssl-dev libreadline-dev \
+libgdbm-dev libmariadb-dev
+
+cd /usr/local/src
+sudo wget https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz
+sudo tar xvf ruby-3.1.2.tar.gz
+cd ruby-3.1.2
+sudo ./configure
+sudo make -j$(grep '^processor' /proc/cpuinfo | wc -l)
+sudo make install
 
 # RubyGemsのインストール
-gem -v
-sudo yum -y install rubygems
+#sudo yum -y install rubygems
+
+# 5. ドキュメントの非インストール設定Permalink
+# サーバ環境には RubyGems ライブラリのドキュメントは不要なので、 
+# RubyGems ライブラリインストール時にドキュメントをインストールしないように設定する。
+# File: ~/.gemrcに下記2行を追加する。
+# install: --no-document
+# update: --no-document
+
+sudo gem update --system
 gem -v
 
-# 
+# テストする
+ruby -e '5.times {puts "Hello Ruby!"}'
+
+# Jekyllのインストール
+# https://jekyllrb.com/docs/installation/other-linux/
+# Debian
+#
+sudo apt-get install jekyll
+
+####################################################
+# Hugoのインストール
+# https://gohugo.io/getting-started/installing/#debian-and-ubuntu
+sudo apt-get install hugo
+
+
